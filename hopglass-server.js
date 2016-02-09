@@ -191,9 +191,7 @@ function getNodesJson(stream) {
       node = {}
       node.nodeinfo = n.nodeinfo
       node.flags = {}
-      node.flags.gateway = false
-      if (_.has(n, 'flags.gateway'))
-        node.flags.gateway = n.flags.gateway
+      node.flags.gateway = _.get(n, 'flags.gateway', false)
       node.flags.online = isOnline(n)
       node.statistics = {}
       if (_.has(n, 'statistics.mesh_vpn'))
@@ -206,9 +204,7 @@ function getNodesJson(stream) {
         node.statistics.memory_usage = (n.statistics.memory.total - n.statistics.memory.free)/n.statistics.memory.total
       if (_.has(n, 'statistics.rootfs_usage'))
         node.statistics.rootfs_usage = n.statistics.rootfs_usage
-      node.statistics.clients = 0
-      if (_.has(n, 'statistics.clients.total'))
-        node.statistics.clients = n.statistics.clients.total
+      node.statistics.clients = _.get(n, 'statistics.clients.total', 0)
       if (_.has(n, 'statistics.loadavg'))
         node.statistics.loadavg = n.statistics.loadavg
       node.lastseen = n.lastseen ? n.lastseen : new Date().toISOString()
